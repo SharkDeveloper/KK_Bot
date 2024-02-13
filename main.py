@@ -3,20 +3,16 @@ from vk_api.longpoll import VkLongPoll
 from dotenv import load_dotenv  # загрузка информации из .env-файла
 import os  # работа с файловой системой
 
-def msg_handler(longpoll):
-    while True:
-        for event in longpoll.listen():
+from utils.VK_API import Bot
+from handlers.longpoll_bot import LongPollBot
             
 def vk_connetion():
     load_dotenv()
-    token = os.getenv("ACCESS_TOKEN")
-    vk_session = vk_api.VkApi(token=token)
-    session_api = vk_session.get_api()
-    longpoll = VkLongPoll(vk_session)
+    user_id = os.getenv("USER_ID")
 
-    msg_handler(longpoll)
-
-
+    bot = LongPollBot()
+    bot.run_long_poll()
+    #bot.send_message()
 
 if __name__=="__main__":
     vk_connetion()
