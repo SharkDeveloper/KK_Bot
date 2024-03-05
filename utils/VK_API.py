@@ -73,7 +73,10 @@ class Bot:
             receiver_user_id = self.default_user_id
 
         try:
-            self.vk_api_access.messages.send(user_id=receiver_user_id, message=message_text, random_id=get_random_id(),keyboard=keyboard.get_keyboard())
-            print(f"Сообщение отправлено для ID {receiver_user_id} с текстом: {message_text}")
+            if keyboard:
+                self.vk_api_access.messages.send(user_id=receiver_user_id, message=message_text, random_id=get_random_id(),keyboard=keyboard.get_keyboard())
+                print(f"Сообщение отправлено для ID {receiver_user_id} с текстом: {message_text}")
+            else:
+                self.vk_api_access.messages.send(user_id=receiver_user_id, message=message_text, random_id=get_random_id())
         except Exception as error:
             print(error)

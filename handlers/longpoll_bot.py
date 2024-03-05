@@ -1,7 +1,7 @@
 from utils.VK_API import Bot  # базовый класс бота из файла simple_bot
 
 from vk_api.longpoll import VkLongPoll, VkEventType  # использование VkLongPoll и VkEventType
-
+from handlers import messages
 
 class LongPollBot(Bot):
     """
@@ -23,14 +23,19 @@ class LongPollBot(Bot):
         """
         Запуск бота
         """
+
+        message = str()
+
         for event in self.long_poll.listen():
 
             # если пришло новое сообщение - происходит проверка текста сообщения
             if event.type == VkEventType.MESSAGE_NEW and event.to_me and event.text:
 
-                # ответ отправляется в личные сообщения пользователя (если сообщение из личного чата)
-                if event.from_user:
-                    self.send_message(receiver_user_id=event.user_id, message_text="И тебе привет")
+                if event.text == "Выплаты":
+                    messages.payments(self, event)
+                elif event.text == "Университет":
+                    messages.university(self,event)
+
 
                 # ответ отпрвляется в беседу (если сообщение было получено в общем чате)
                 elif event.from_chat:
